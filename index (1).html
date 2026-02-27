@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Program Keahlian - SMKN 1 Gondang Nganjuk</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --mint:       #7EC8A4;
+      --sage:       #5A9E78;
+      --deep:       #2D6A4F;
+      --light-mint: #D8F3E8;
+      --pale:       #F0FAF4;
+      --white:      #FFFFFF;
+      --dark:       #1A2E25;
+      --gray:       #4A6358;
+      --accent:     #B7E4C7;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--pale);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--accent);
+      padding: 14px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 2px 20px rgba(94,158,120,0.1);
+    }
+    .nav-brand { display: flex; align-items: center; gap: 12px; }
+    .nav-brand img {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; border: 2px solid var(--mint);
+    }
+    .nav-brand-text { line-height: 1.2; }
+    .nav-brand-text strong {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; color: var(--deep);
+    }
+    .nav-brand-text span { font-size: 0.72rem; color: var(--gray); display: block; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      text-decoration: none; font-size: 0.85rem; font-weight: 500;
+      color: var(--gray); transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--sage); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--deep) 0%, var(--sage) 50%, var(--mint) 100%);
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(255,255,255,0.08) 0%, transparent 70%);
+    }
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      animation: float 8s ease-in-out infinite;
+    }
+    .hero-blob.b1 { width:320px; height:320px; top:-60px; left:-80px; animation-delay:0s; }
+    .hero-blob.b2 { width:200px; height:200px; bottom:40px; right:-40px; animation-delay:3s; }
+    .hero-blob.b3 { width:140px; height:140px; top:40%; left:10%; animation-delay:5s; }
+    @keyframes float {
+      0%,100% { transform: translateY(0) scale(1); }
+      50%      { transform: translateY(-20px) scale(1.04); }
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 760px; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      color: #fff; border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 50px; padding: 6px 20px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      color: #fff; line-height: 1.1; margin-bottom: 12px;
+      text-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    }
+    .hero h1 span { color: var(--light-mint); }
+    .hero p {
+      color: rgba(255,255,255,0.85); font-size: 1.05rem;
+      line-height: 1.7; margin-bottom: 36px;
+    }
+    .hero-stats {
+      display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;
+    }
+    .stat {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      backdrop-filter: blur(8px);
+      border-radius: 16px; padding: 16px 28px; text-align: center;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 700; color: #fff;
+    }
+    .stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.75); margin-top: 2px; }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 80px 24px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--sage);
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--deep); margin-bottom: 16px;
+    }
+    .section-sub {
+      color: var(--gray); font-size: 1rem; line-height: 1.7;
+      max-width: 600px;
+    }
+    .divider {
+      width: 56px; height: 4px;
+      background: linear-gradient(90deg, var(--mint), var(--sage));
+      border-radius: 2px; margin: 16px 0 40px;
+    }
+
+    /* ── BIODATA ── */
+    .biodata { background: var(--white); }
+    .bio-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; margin-top: 40px;
+    }
+    .bio-item {
+      background: var(--pale);
+      border: 1px solid var(--accent);
+      border-radius: 14px; padding: 20px 24px;
+      display: flex; align-items: flex-start; gap: 14px;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .bio-item:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(94,158,120,0.12); }
+    .bio-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--mint), var(--sage));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .bio-label { font-size: 0.72rem; color: var(--gray); font-weight: 500; margin-bottom: 3px; }
+    .bio-val { font-size: 0.92rem; font-weight: 600; color: var(--dark); }
+
+    /* ── PRODI CARDS ── */
+    .prodi { background: var(--pale); }
+    .prodi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px; margin-top: 40px;
+    }
+    .prodi-card {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      transition: transform .3s, box-shadow .3s;
+      border: 1px solid var(--accent);
+    }
+    .prodi-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(94,158,120,0.18);
+    }
+    .prodi-img {
+      width: 100%; height: 200px; object-fit: cover;
+      display: block;
+      transition: transform .4s;
+    }
+    .prodi-card:hover .prodi-img { transform: scale(1.04); }
+    .prodi-img-wrap { overflow: hidden; position: relative; }
+    .prodi-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--deep); color: #fff;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: .06em; padding: 4px 12px;
+      border-radius: 50px;
+    }
+    .prodi-body { padding: 20px 22px 24px; }
+    .prodi-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; color: var(--deep); margin-bottom: 8px;
+    }
+    .prodi-body p {
+      font-size: 0.84rem; color: var(--gray);
+      line-height: 1.65; margin-bottom: 16px;
+    }
+    .prodi-tag {
+      display: inline-block;
+      background: var(--light-mint);
+      color: var(--deep);
+      font-size: 0.72rem; font-weight: 600;
+      padding: 4px 12px; border-radius: 50px;
+    }
+
+    /* ── CONTACT ── */
+    .contact { background: var(--white); }
+    .contact-inner {
+      background: linear-gradient(135deg, var(--deep), var(--sage));
+      border-radius: 24px; padding: 56px 48px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+      align-items: center;
+    }
+    .contact-inner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; color: #fff; margin-bottom: 16px;
+    }
+    .contact-inner p { color: rgba(255,255,255,0.8); line-height: 1.7; }
+    .contact-items { display: flex; flex-direction: column; gap: 16px; }
+    .contact-row {
+      display: flex; align-items: center; gap: 14px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 14px; padding: 14px 18px;
+    }
+    .c-icon {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+    .c-text small { font-size: 0.7rem; color: rgba(255,255,255,0.65); }
+    .c-text p { font-size: 0.88rem; color: #fff; font-weight: 500; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      text-align: center; padding: 32px 24px;
+      color: rgba(255,255,255,0.5); font-size: 0.82rem;
+      line-height: 1.8;
+    }
+    footer strong { color: var(--mint); }
+    footer .made-by {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+      font-style: italic;
+    }
+    footer .made-by span { color: var(--mint); font-style: normal; font-weight: 600; }
+
+    /* ── SCROLL ANIMATION ── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 768px) {
+      nav { padding: 12px 20px; }
+      .nav-links { display: none; }
+      .bio-grid { grid-template-columns: 1fr; }
+      .contact-inner { grid-template-columns: 1fr; padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-brand">
+    <img src="https://raw.githubusercontent.com/seravinar06-maker/ratih/main/logo.jpeg" alt="Logo SMKN 1 Gondang"
+         onerror="this.style.display='none'"/>
+    <div class="nav-brand-text">
+      <strong>SMKN 1 Gondang</strong>
+      <span>Nganjuk, Jawa Timur</span>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="#biodata">Profil</a>
+    <a href="#prodi">Program Keahlian</a>
+    <a href="#kontak">Kontak</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-blob b1"></div>
+  <div class="hero-blob b2"></div>
+  <div class="hero-blob b3"></div>
+  <div class="hero-content">
+    <div class="hero-badge">📚 SMK Negeri 1 Gondang</div>
+    <h1>Program Keahlian<br/><span>SMKN 1 Gondang</span></h1>
+    <p>Mencetak generasi unggul, berkarakter, dan berdaya saing<br/>di Kabupaten Nganjuk, Jawa Timur.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">42</div>
+        <div class="stat-label">Rombel</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">8</div>
+        <div class="stat-label">Program Keahlian</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">1986</div>
+        <div class="stat-label">Berdiri Sejak</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIODATA -->
+<section class="biodata" id="biodata">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Tentang Sekolah</div>
+      <h2 class="section-title">Profil SMKN 1 Gondang</h2>
+      <p class="section-sub">SMK Negeri 1 Gondang adalah sekolah menengah kejuruan negeri yang berlokasi di Kecamatan Gondang, Kabupaten Nganjuk, Jawa Timur.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="bio-grid reveal">
+      <div class="bio-item">
+        <div class="bio-icon">🏫</div>
+        <div>
+          <div class="bio-label">Nama Sekolah</div>
+          <div class="bio-val">SMK Negeri 1 Gondang</div>
+        </div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-icon">🔢</div>
+        <div>
+          <div class="bio-label">NPSN</div>
+          <div class="bio-val">20312896</div>
+        </div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-icon">📍</div>
+        <div>
+          <div class="bio-label">Alamat</div>
+          <div class="bio-val">Jl. Raya Gondang-Lengkong, Balongrejo, Balong Gebang, Gondang, Nganjuk 64451</div>
+        </div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-icon">🗺️</div>
+        <div>
+          <div class="bio-label">Provinsi</div>
+          <div class="bio-val">Jawa Timur</div>
+        </div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-icon">📞</div>
+        <div>
+          <div class="bio-label">Kontak</div>
+          <div class="bio-val">(0358) 611606</div>
+        </div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-icon">🌐</div>
+        <div>
+          <div class="bio-label">Website</div>
+          <div class="bio-val">smkn1gondang-nganjuk.sch.id</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAM KEAHLIAN -->
+<section class="prodi" id="prodi">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Program Keahlian</div>
+      <h2 class="section-title">Jurusan Unggulan</h2>
+      <p class="section-sub">SMKN 1 Gondang menyediakan 8 program keahlian yang dirancang untuk mempersiapkan siswa memasuki dunia kerja dan industri.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="prodi-grid">
+
+      <div class="prodi-card reveal">
+        <div class="prodi-img-wrap">
+          <img class="prodi-img" src="https://raw.githubusercontent.com/seravinar06-maker/ratih/main/tkr.jpeg" alt="Teknik Kendaraan Ringan" onerror="this.src='https://placehold.co/400x200/7EC8A4/fff?text=TKR'"/>
+          <span class="prodi-badge">TKR</span>
+        </div>
+        <div class="prodi-body">
+          <h3>Teknik Kendaraan Ringan</h3>
+          <p>Mempelajari perawatan, perbaikan, dan diagnosa kendaraan ringan bermesin bensin maupun diesel secara modern.</p>
+          <span class="prodi-tag">Otomotif</span>
+        </div>
+      </div>
+
+      <div class="prodi-card reveal">
+        <div class="prodi-img-wrap">
+          <img class="prodi-img" src="https://raw.githubusercontent.com/seravinar06-maker/ratih/main/tsm.jpeg" alt="Teknik Sepeda Motor" onerror="this.src='https://placehold.co/400x200/5A9E78/fff?text=TSM'"/>
+          <span class="prodi-badge">TSM</span>
+        </div>
+        <div class="prodi-body">
+          <h3>Teknik Sepeda Motor</h3>
+          <p>Kompetensi perawatan dan perbaikan sepeda motor mulai dari sistem bahan bakar, kelistrikan, hingga transmisi.</p>
+          <span class="prodi-tag">Otomotif</span>
+        </div>
+      </div>
+
+      <div class="prodi-card reveal">
+        <div class="prodi-img-wrap">
+          <img class="prodi-img" src="https://raw.githubusercontent.com/seravinar06-maker/ratih/main/atph.jpeg" alt="Agribisnis Tanaman Pangan & Hortikultura" onerror="this.src='https://placehold.co/400x200/2D6A4F/fff?text=ATPH'"/>
+          <span class="prodi-badge">ATPH</span>
+        </div>
+        <div class="prodi-body">
+          <h3>Agribisnis Tanaman Pangan & Hortikultura</h3>
+          <p>Penguasaan budidaya tanaman pangan dan hortikultura berbasis pertanian modern dan berkelanjutan.</p>
+          <span class="prodi-tag">Pertanian</span>
+        </div>
+      </div>
+
+      <div class="prodi-card reveal">
+        <div class="prodi-img-wrap">
+          <img class="prodi-img" src="https://raw.githubusercontent.com/seravinar06-maker/ratih/main/tkj.jpeg" alt="Teknik Komputer & Jaringan" onerror="this.src='https://placehold.co/400x200/7EC8A4/fff?text=TKJ'"/>
+          <span class="prodi-badge">TKJ</span>
+        </div>
+        <div class="prodi-body">
+          <h3>Teknik Komputer & Jaringan</h3>
+          <p>Instalasi jaringan komputer, administrasi server, keamanan siber, dan troubleshooting perangkat keras & lunak.</p>
+          <span class="prodi-tag">Teknologi Informasi</span>
+        </div>
+      </div>
+
+      <div class="prodi-card reveal">
+        <div class="prodi-img-wrap">
+          <img class="prodi-img" src="https://raw.githubusercontent.com/seravinar06-maker/ratih/main/mp.jpeg" alt="Manajemen Perkantoran" onerror="this.src='https://placehold.co/400x200/5A9E78/fff?text=MP'"/>
+          <span class="prodi-badge">MP</span>
+        </div>
+        <div class="prodi-body">
+          <h3>Manajemen Perkantoran</h3>
+          <p>Administrasi perkantoran, korespondensi bisnis, manajemen arsip, dan otomasi kantor berbasis teknologi.</p>
+          <span class="prodi-tag">Bisnis & Manajemen</span>
+        </div>
+      </div>
+
+      <div class="prodi-card reveal">
+        <div class="prodi-img-wrap">
+          <img class="prodi-img" src="https://raw.githubusercontent.com/seravinar06-maker/ratih/main/atu.jpeg" alt="Agribisnis Ternak Unggas" onerror="this.src='https://placehold.co/400x200/2D6A4F/fff?text=ATU'"/>
+          <span class="prodi-badge">ATU</span>
+        </div>
+        <div class="prodi-body">
+          <h3>Agribisnis Ternak Unggas</h3>
+          <p>Budidaya, manajemen kesehatan, dan pengolahan hasil ternak unggas secara profesional dan berwawasan lingkungan.</p>
+          <span class="prodi-tag">Pertanian</span>
+        </div>
+      </div>
+
+      <div class="prodi-card reveal">
+        <div class="prodi-img-wrap">
+          <img class="prodi-img" src="https://raw.githubusercontent.com/seravinar06-maker/ratih/main/aphp.jpeg" alt="Agribisnis Pengolahan Hasil Pertanian" onerror="this.src='https://placehold.co/400x200/7EC8A4/fff?text=APHP'"/>
+          <span class="prodi-badge">APHP</span>
+        </div>
+        <div class="prodi-body">
+          <h3>Agribisnis Pengolahan Hasil Pertanian</h3>
+          <p>Teknologi pengolahan pangan, pengendalian mutu produk pertanian, dan kewirausahaan agribisnis modern.</p>
+          <span class="prodi-tag">Pertanian</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- KONTAK -->
+<section class="contact" id="kontak">
+  <div class="container">
+    <div class="contact-inner reveal">
+      <div>
+        <h2>Hubungi Kami</h2>
+        <p>Tertarik bergabung atau ingin mengetahui lebih lanjut tentang program keahlian kami? Jangan ragu untuk menghubungi SMKN 1 Gondang Nganjuk.</p>
+      </div>
+      <div class="contact-items">
+        <div class="contact-row">
+          <div class="c-icon">📞</div>
+          <div class="c-text">
+            <small>Telepon</small>
+            <p>(0358) 611606</p>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="c-icon">📍</div>
+          <div class="c-text">
+            <small>Alamat</small>
+            <p>Jl. Raya Gondang-Lengkong, Gondang, Nganjuk 64451</p>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="c-icon">🌐</div>
+          <div class="c-text">
+            <small>Website</small>
+            <p>smkn1gondang-nganjuk.sch.id</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>SMK Negeri 1 Gondang</strong> · Nganjuk, Jawa Timur<br/>
+  NPSN: 20312896 &nbsp;|&nbsp; (0358) 611606 &nbsp;|&nbsp; smkn1gondang-nganjuk.sch.id<br/>
+  <div class="made-by">dibuat oleh <span>nyimas ratih dewantari</span></div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
